@@ -1,0 +1,7 @@
+*.h
+jalak.vapi
+foo.vapi
+*.so
+.DS_Store
+
+

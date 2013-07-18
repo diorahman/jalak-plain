@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <title>jalak</title>
+</head>
+<body>
+  JALAK
+  <button class="plugin" id="hello">hello</button>
+  <script type="text/javascript">
+    var app = new App();
+
+    app.loadPlugin({ name : "foo"}, function(err, obj){
+      console.log(obj.name)
+      app.hello();
+    })
+
+  </script>
+</body>
+</html>
