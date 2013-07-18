@@ -1,5 +1,6 @@
 *.h
 jalak.vapi
+jalak
 foo.vapi
 *.so
 .DS_Store
