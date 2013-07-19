@@ -5,14 +5,18 @@
 </head>
 <body>
   JALAK
-  <button class="plugin" id="hello">hello</button>
-  <script type="text/javascript">
-    var app = new App();
+  <button id="hello">hello</button>
 
-    app.loadPlugin({ name : "foo"}, function(err, obj){
-      console.log(obj.name)
-      app.hello();
-    })
+  <div id="volume"></div>
+
+  <script type="text/javascript">
+    var Jalak = new App();
+    Jalak.plugins = {};
+    Jalak.loadPlugin({ name : "volume"}, function(err, obj){
+      document.getElementById("hello").onclick = function(){
+        Jalak.exec({ name : "volume", data : "50"}, function(err, obj){});
+      }
+    });
 
   </script>
 </body>

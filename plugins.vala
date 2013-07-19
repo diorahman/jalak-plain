@@ -54,6 +54,36 @@ namespace Jalak{
       return engine.try_unload_plugin(plugin_info);
     }
 
+    public string get_info(string name){
+
+      var plugin_info = engine.get_plugin_info(name);
+
+      if (plugin_info == null) {
+        warning(@"Plugin $name not found");
+        return "";
+      }
+
+      var plugin = exten_set.get_extension(plugin_info) as Plugin;
+      
+      return plugin.get_info();
+
+    }
+
+    public bool exec(string name, string data){
+
+      var plugin_info = engine.get_plugin_info(name);
+
+      if (plugin_info == null) {
+        warning(@"Plugin $name not found");
+        return false;
+      }
+
+      var plugin = exten_set.get_extension(plugin_info) as Plugin;
+      
+      return plugin.exec(data);
+
+    }
+
     private void on_extension_added(Peas.ExtensionSet extension_set, Peas.PluginInfo info, GLib.Object exten) {
       var plugin = exten as Plugin;
       try {
@@ -89,5 +119,19 @@ namespace Jalak{
      * Destroy the plugin
      */
     public abstract void destroy() throws Error;
+
+    /**
+     * update the plugin
+     */
+    public abstract void update(string data) throws Error;
+
+    /**
+     * draw the ui of the plugin
+     */
+    public abstract void draw(string data) throws Error;
+
+    public abstract bool exec(string data) throws Error;
+
+    public abstract string get_info() throws Error;
   }
 }

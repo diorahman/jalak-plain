@@ -9,8 +9,8 @@ namespace Jalak{
 
   namespace App{
 
-    internal void init(void * ctx){
-      var bridge = new Bridge(ctx);
+    internal void init(void * ctx, Jalak.Page p){
+      var bridge = new Bridge(ctx, p);
       var app = new JS.App(bridge, new Jalak.Plugins(bridge), "App");
 
       // load plugins from config

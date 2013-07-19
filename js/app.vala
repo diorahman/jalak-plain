@@ -41,6 +41,8 @@ namespace Jalak{
                 { "hello", function_hello, JSCore.PropertyAttribute.ReadOnly },
                 { "loadPlugin", function_loadPlugin, JSCore.PropertyAttribute.ReadOnly },
                 { "unloadPlugin", function_unloadPlugin, JSCore.PropertyAttribute.ReadOnly },
+                { "getPluginInfo", function_getPluginInfo, JSCore.PropertyAttribute.ReadOnly },
+                { "exec", function_exec, JSCore.PropertyAttribute.ReadOnly },
                 { null, null, 0 }
             };
 
@@ -50,6 +52,14 @@ namespace Jalak{
 
             private static bool unload_plugin(string name){
                 return plugins.unload(name);
+            }
+
+            private static string get_plugin_info(string name){
+                return plugins.get_info(name);
+            }
+
+            private static bool exec(string name, string data){
+                return plugins.exec(name, data);
             }
 
             public static JSCore.Value function_loadPlugin (JSCore.Context ctx,
@@ -101,6 +111,59 @@ namespace Jalak{
                     args = "new Error('plugin loading failed'), {status : 'fail', name: '" + name + "' }";
                 }
 
+                Jalak.Util.evaluate_callback(ctx, callback, args);
+
+                return new JSCore.Value.undefined (ctx);
+            }
+
+            public static JSCore.Value function_getPluginInfo (JSCore.Context ctx,
+                JSCore.Object function,
+                JSCore.Object thisObject,
+                JSCore.Value[] arguments,
+                out JSCore.Value exception) 
+            {
+
+                // args[0] -> { name : foo} -- options
+                // args[1] -> function(err, retObj){} -- callback
+
+                var name = Jalak.Util.string_property_from_value(ctx, arguments[0], "name");
+                var callback = Jalak.Util.string_from_js_string(arguments[1].to_string_copy (ctx, null));
+
+                // read .js -> put in string -> populate
+
+                // poc
+                // var pluginObj = 
+                
+                var args = "null, {status : 'ok', info_str: " + get_plugin_info(name) + " }";
+                Jalak.Util.evaluate_callback(ctx, callback, args);
+
+                return new JSCore.Value.undefined (ctx);
+            }
+
+            public static JSCore.Value function_exec (JSCore.Context ctx,
+                JSCore.Object function,
+                JSCore.Object thisObject,
+                JSCore.Value[] arguments,
+                out JSCore.Value exception) 
+            {
+
+                // args[0] -> { name : foo} -- options
+                // args[1] -> function(err, retObj){} -- callback
+
+                var name = Jalak.Util.string_property_from_value(ctx, arguments[0], "name");
+                var data = Jalak.Util.string_property_from_value(ctx, arguments[0], "data");
+                var callback = Jalak.Util.string_from_js_string(arguments[1].to_string_copy (ctx, null));
+
+                // read .js -> put in string -> populate
+
+                // poc
+                // var pluginObj = 
+
+                var args = "null, {status : 'ok', status: true }";
+
+                if(!exec(name, data))
+                    args = "new Error('exec failed'), {status : 'fail', name: '" + name + "' }";
+                
                 Jalak.Util.evaluate_callback(ctx, callback, args);
 
                 return new JSCore.Value.undefined (ctx);

@@ -16,6 +16,11 @@ jalak:
 foo: 
 	valac $(JALAK_VALAFLAGS) --library=foo -X -shared -X -fPIC -X -I./ ./plugins/foo/foo.vala jalak.vapi -o ./plugins/foo/libfoo.so
 
+volume: 
+	valac $(JALAK_VALAFLAGS) --pkg libpulse --pkg posix --pkg libpulse-mainloop-glib  --library=volume -X -shared -X -fPIC -X -I./ ./plugins/volume/volume.vala ./plugins/volume/pulse_glue.vala jalak.vapi -o ./plugins/volume/libvolume.so
+	
+
+
 clean:
 	rm -rf *.vapi *.h ./plugins/*/*.so jalak
 

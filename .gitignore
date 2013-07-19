@@ -4,5 +4,5 @@ jalak
 foo.vapi
 *.so
 .DS_Store
-
+.swp
 

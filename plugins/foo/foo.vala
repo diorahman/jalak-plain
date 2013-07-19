@@ -11,18 +11,28 @@ public class Core : Peas.ExtensionBase, Jalak.Plugin{
 
     public void init(void * ctx){
         bridge = (Jalak.Bridge) ctx;
-        stdout.printf("core init \n");
-
-        // bridge.test.connect( () => {stdout.printf("test signal \n");});
-        // build JavaScript object using bridge.context <-- this is the global context of the page
-
-        Jalak.Util.evaluate_callback((JSCore.GlobalContext) bridge.context, "function(err, obj){ alert('hihi');}", "null, {}");
+        Jalak.Util.inject_plugin_script(bridge.page, get_plugin_info());
     }
         
     public void destroy(){
         stdout.printf("core destroy \n");
     }
 
+    public void update(string data){
+        stdout.printf("core destroy \n");
+    }
+
+    public void draw(string data){
+        stdout.printf("core destroy \n");
+    }
+
+    public bool exec(string data){
+        return false;
+    }
+
+    public string get_info(){
+        return "{ \"volume\" : 24 }";
+    }
  }
 
 [ModuleInit]

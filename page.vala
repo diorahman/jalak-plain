@@ -15,9 +15,11 @@ namespace Jalak{
       settings.enable_universal_access_from_file_uris = true;
       set_settings(settings);
 
-      window_object_cleared.connect ((frame, context) => {
-        App.init(context);
-      });
+      window_object_cleared.connect(this.on_window_object_cleared);
+    }
+
+    private void on_window_object_cleared(WebKit.WebFrame frame, void * context){
+      App.init(context, this);
     }
 
     public void load(){

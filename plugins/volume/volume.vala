@@ -8,16 +8,36 @@
 public class Core : Peas.ExtensionBase, Jalak.Plugin{
 
     private Jalak.Bridge bridge;
+    private PulseGlue glue;
 
     public void init(void * ctx){
-        bridge = (Jalak.Bridge) bridge;
-        stdout.printf("core init \n");
+        bridge = (Jalak.Bridge) ctx;
+        glue = new PulseGlue(this);
+        glue.start();
+        Jalak.Util.inject_plugin_script(bridge.page, get_plugin_info());
     }
-        
+
     public void destroy(){
         stdout.printf("core destroy \n");
     }
+        
+    public void update(string data){
+        Jalak.Util.inject_script(bridge.page, "Jalak.plugins[\"volume\"]().update(" + data + ")");
+    }
 
+    public void draw(string data){
+        stdout.printf("core destroy \n");
+    }
+
+    public bool exec(string data){
+        stdout.printf("try to set \n");
+        glue.pulse_glue_sync_volume(int.parse(data));
+        return false;
+    }
+
+    public string get_info(){
+        return "{ \"volume\" : 24 }";
+    }
  }
 
 [ModuleInit]
