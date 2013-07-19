@@ -2,7 +2,8 @@
 jalak.vapi
 jalak
 foo.vapi
+volume.vapi
 *.so
 .DS_Store
-.swp
+*.swp
 
