@@ -8,21 +8,24 @@
 public class Core : Peas.ExtensionBase, Jalak.Plugin{
 
     private Jalak.Bridge bridge;
-    private PulseGlue glue;
+    private AudioGlue glue;
 
     public void init(void * ctx){
         bridge = (Jalak.Bridge) ctx;
-        glue = new PulseGlue(this);
+        
+        glue = new AudioGlue(this);
         glue.start();
+
         Jalak.Util.inject_plugin_script(bridge.page, get_plugin_info());
     }
 
     public void destroy(){
+        glue.destroy();
         stdout.printf("core destroy \n");
     }
         
     public void update(string data){
-        Jalak.Util.inject_script(bridge.page, "Jalak.plugins[\"volume\"]().update(" + data + ")");
+        Jalak.Util.inject_script(bridge.page, "Jalak.plugins[\"audio\"]().update(" + data + ")");
     }
 
     public void draw(string data){
@@ -30,12 +33,12 @@ public class Core : Peas.ExtensionBase, Jalak.Plugin{
     }
 
     public bool exec(string data){
-        stdout.printf("try to set \n");
-        glue.pulse_glue_sync_volume(int.parse(data));
+        glue.sync_volume(int.parse(data));
         return false;
     }
 
     public string get_info(){
+        // TODO: serialized audio_status and info about the plugin
         return "{ \"volume\" : 24 }";
     }
  }

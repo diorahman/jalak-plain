@@ -1339,7 +1339,7 @@ namespace PulseAudio {
                 public Proplist proplist;
         }
 
-        [CCode (cname="pa_card_profile_info", has_type_id=false)]
+        [CCode (cname="pa_card_profile_info", has_type_id=false, has_copy_function=false, has_destroy_function=false)]
         public struct CardProfileInfo {
                 public string name;
                 public string description;
@@ -1355,6 +1355,7 @@ namespace PulseAudio {
                 public uint32 owner_module;
                 public string driver;
                 public uint32 n_profiles;
+                [CCode (array_length_cname = "n_profiles")]
                 public CardProfileInfo[] profiles;
                 public CardProfileInfo *active_profile;
                 public Proplist proplist;

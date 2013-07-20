@@ -2,7 +2,7 @@
 
   if(!Jalak.plugins){ Jalak.plugins = {};}
 
-  Jalak.plugins["volume"] = function(){
+  Jalak.plugins["audio"] = function(){
     function update(data){
       document.getElementById("volume").innerText = data;
     }

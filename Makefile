@@ -8,7 +8,7 @@ JALAK_VALAFLAGS = --pkg gio-2.0 \
 	  --thread \
 	  --vapidir=./vapi
 
-all: jalak foo
+all: jalak audio
 
 jalak:
 	valac $(JALAK_VALAFLAGS) --header=jalak.h --vapi=jalak.vapi $(JALAK_FILES) -o jalak
@@ -16,10 +16,8 @@ jalak:
 foo: 
 	valac $(JALAK_VALAFLAGS) --library=foo -X -shared -X -fPIC -X -I./ ./plugins/foo/foo.vala jalak.vapi -o ./plugins/foo/libfoo.so
 
-volume: 
-	valac $(JALAK_VALAFLAGS) --pkg libpulse --pkg posix --pkg libpulse-mainloop-glib  --library=volume -X -shared -X -fPIC -X -I./ ./plugins/volume/volume.vala ./plugins/volume/pulse_glue.vala jalak.vapi -o ./plugins/volume/libvolume.so
-	
-
+audio: 
+	valac $(JALAK_VALAFLAGS) --pkg libpulse --pkg posix --pkg libpulse-mainloop-glib  --library=volume -X -shared -X -fPIC -X -I./ ./plugins/audio/audio.vala ./plugins/audio/audio_status.vala ./plugins/audio/audio_glue.vala jalak.vapi -o ./plugins/audio/libaudio.so
 
 clean:
 	rm -rf *.vapi *.h ./plugins/*/*.so jalak

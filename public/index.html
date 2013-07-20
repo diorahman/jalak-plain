@@ -10,11 +10,12 @@
   <div id="volume"></div>
 
   <script type="text/javascript">
+  
     var Jalak = new App();
     Jalak.plugins = {};
-    Jalak.loadPlugin({ name : "volume"}, function(err, obj){
+    Jalak.loadPlugin({ name : "audio"}, function(err, obj){
       document.getElementById("hello").onclick = function(){
-        Jalak.exec({ name : "volume", data : "50"}, function(err, obj){});
+        Jalak.exec({ name : "audio", data : "50"}, function(err, obj){});
       }
     });
 
